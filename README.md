@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/62a27636-36ec-404c-9161-0113c15f42bb)
+
 <div align="center">
 <img src="https://cdn.jsdelivr.net/gh/xue-pai/FuxiCTR@main/docs/logo.png" alt="Logo"/>
 </div>
