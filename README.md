@@ -150,3 +150,5 @@ Welcome to join our WeChat group for any question and discussion. We also have o
 
 ![Scan QR code](https://openbenchmark.github.io/BARS/_images/wechat.jpg)
 
+#   f u x i c t r _  
+ 
