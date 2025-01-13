@@ -41,8 +41,8 @@ class DeepFM(BaseModel):
                                      net_regularizer=net_regularizer,
                                      **kwargs)
         self.embedding_layer = FeatureEmbedding(feature_map, embedding_dim)
-        self.fm = FactorizationMachine(feature_map)
-        self.mlp = MLP_Block(input_dim=feature_map.sum_emb_out_dim(),
+        self.fm = FactorizationMachine(feature_map)  #buraya
+        self.mlp = MLP_Block(input_dim=feature_map.sum_emb_out_dim(),  #buraya
                              output_dim=1, 
                              hidden_units=hidden_units,
                              hidden_activations=hidden_activations,
@@ -59,8 +59,8 @@ class DeepFM(BaseModel):
         """
         X = self.get_inputs(inputs)
         feature_emb = self.embedding_layer(X)
-        y_pred = self.fm(X, feature_emb)
-        y_pred += self.mlp(feature_emb.flatten(start_dim=1))
+        y_pred = self.fm(X, feature_emb)   #buraya
+        y_pred += self.mlp(feature_emb.flatten(start_dim=1))   #buraya
         y_pred = self.output_activation(y_pred)
         return_dict = {"y_pred": y_pred}
         return return_dict

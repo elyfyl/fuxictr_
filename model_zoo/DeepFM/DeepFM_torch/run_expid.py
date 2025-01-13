@@ -14,7 +14,7 @@
 # limitations under the License.
 # =========================================================================
 
-
+'''
 import os
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 import sys
@@ -25,7 +25,7 @@ from datetime import datetime
 from fuxictr.utils import load_config, set_logger, print_to_json, print_to_list
 from fuxictr.features import FeatureMap
 from fuxictr.pytorch.torch_utils import seed_everything
-from fuxictr.pytorch.dataloaders import H5DataLoader
+from fuxictr.pytorch.dataloaders import RankDataLoader
 from fuxictr.preprocess import FeatureProcessor, build_dataset
 import src as model_zoo
 import gc
@@ -35,8 +35,8 @@ from pathlib import Path
 
 
 if __name__ == '__main__':
-    ''' Usage: python run_expid.py --config {config_dir} --expid {experiment_id} --gpu {gpu_device_id}
-    '''
+     Usage: python run_expid.py --config {config_dir} --expid {experiment_id} --gpu {gpu_device_id}
+    
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, default='./config/', help='The config directory.')
     parser.add_argument('--expid', type=str, default='DeepFM_proje', help='The experiment id to run.')
@@ -85,4 +85,40 @@ if __name__ == '__main__':
             .format(datetime.now().strftime('%Y%m%d-%H%M%S'), 
                     ' '.join(sys.argv), experiment_id, params['dataset_id'],
                     "N.A.", print_to_list(valid_result), print_to_list(test_result)))
+'''
 
+import os
+import sys
+import logging
+import fuxictr_version
+from fuxictr import datasets
+from datetime import datetime
+from fuxictr.utils import load_config, set_logger, print_to_json, print_to_list
+from fuxictr.features import FeatureMap
+from fuxictr.pytorch.torch_utils import seed_everything
+from fuxictr.pytorch.dataloaders import RankDataLoader  # Updated import
+from fuxictr.preprocess import FeatureProcessor, build_dataset
+import src as model_zoo
+import gc
+import argparse
+from pathlib import Path
+
+if __name__ == '__main__':
+    ''' Usage: python run_expid.py --config {config_dir} --expid {experiment_id} --gpu {gpu_device_id} '''
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', type=str, default='./config/', help='The config directory.')
+    parser.add_argument('--expid', type=str, default='DeepFM_proje', help='The experiment id to run.')
+    parser.add_argument('--gpu', type=int, default=-1, help='The gpu index, -1 for cpu')
+    args = vars(parser.parse_args())
+    
+    experiment_id = args['expid']
+    params = load_config(args['config'], experiment_id)
+    params['gpu'] = args['gpu']
+    set_logger(params)
+    logging.info("Params: " + print_to_json(params))
+    seed_everything(seed=params['seed'])
+
+    data_dir = os.path.join(params['data_root'], params['dataset_id'])
+    # Use RankDataLoader instead of H5DataLoader
+    data_loader = RankDataLoader(params, data_dir)
+    logging.info("DataLoader: " + str(data_loader))

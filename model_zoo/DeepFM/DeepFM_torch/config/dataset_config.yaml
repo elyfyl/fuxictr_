@@ -1,5 +1,5 @@
 ### Tiny data for tests only
-'
+'''
 tiny_h5:
     data_root: ../../../data/
     data_format: h5
@@ -19,8 +19,8 @@ tiny_csv:
                  "cms_group_id","final_gender_code","age_level","pvalue_level","shopping_level","occupation"], 
                  active: True, dtype: str, type: categorical}]
     label_col: {name: clk, dtype: float} 
-'
-
+'''
+---
 frappe_x1:
     data_root: ../../../data/
     data_format: csv
@@ -29,6 +29,10 @@ frappe_x1:
     test_data: ../../../data/frappe_x1/test.csv
     min_categr_count: 1
     feature_cols:
-        [{name: ["user", "item", "daytime", "weekday", "isweekend", "homework", "cost", "weather", "country", "city"], 
-                 active: True, dtype: str, type: categorical}]
-    label_col: {name: clk, dtype: float}
+        - name: ["user", "item", "daytime", "weekday", "isweekend", "homework", "cost", "weather", "country", "city"]
+          active: True
+          dtype: str
+          type: categorical
+    label_col:
+        name: clk
+        dtype: float
